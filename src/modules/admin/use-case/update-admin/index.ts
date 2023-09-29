@@ -2,6 +2,7 @@ import { inject, injectable } from 'tsyringe'
 
 import { Injection } from 'global/container'
 import { Admin } from '@prisma/client'
+import { hashPassword } from 'global/helpers/hash'
 
 @injectable()
 export class UpdateAdminUseCase implements UseCase.Methods {
@@ -15,6 +16,11 @@ export class UpdateAdminUseCase implements UseCase.Methods {
 
     if (!user) throw new Error('Admin not found')
 
-    return this.adminRepository.update(params)
+    const userData = {
+      ...params,
+      password: await hashPassword(params.password),
+    }
+
+    return this.adminRepository.update(userData)
   }
 }

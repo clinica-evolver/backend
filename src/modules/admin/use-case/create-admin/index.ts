@@ -2,6 +2,7 @@ import { inject, injectable } from 'tsyringe'
 import { Admin } from '@prisma/client'
 
 import { Injection } from 'global/container'
+import { hashPassword } from 'global/helpers/hash'
 
 @injectable()
 export class CreateAdminUseCase implements UseCase.Methods {
@@ -15,6 +16,11 @@ export class CreateAdminUseCase implements UseCase.Methods {
 
     if (user) throw new Error('Admin already exists')
 
-    return await this.adminRepository.create(params)
+    const userData = {
+      ...params,
+      password: await hashPassword(params.password),
+    }
+
+    return await this.adminRepository.create(userData)
   }
 }
