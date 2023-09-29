@@ -1,12 +1,18 @@
 import { container } from 'tsyringe'
 
-import { UserRepository } from 'modules/user/repository'
+import { AdminRepository } from '@modules/admin/repository'
+import { AccessRepository } from '@modules/access/repository'
 
 export enum Injection {
-  UserRepository = 'UserRepository',
+  AdminRepository = 'AdminRepository',
+  AccessRepository = 'AccessRepository',
 }
 
-container.registerSingleton<Repository.User.Methods>(
-  Injection.UserRepository,
-  UserRepository,
+container.registerSingleton<Repository.Admin.Methods>(
+  Injection.AdminRepository,
+  AdminRepository,
+)
+container.registerSingleton<Repository.Access.Methods>(
+  Injection.AccessRepository,
+  AccessRepository,
 )

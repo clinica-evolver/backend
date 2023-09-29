@@ -11,10 +11,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String
+enum Gender {
+  male
+  female
+}
+
+model Admin {
+  id              String   @id @default(uuid())
+  email           String   @unique
+  name            String
+  password        String
+  dateBirth       DateTime
+  address         String
+  phone           String
+  role            String
+  descriptionRole String?
+  registerCode    String
+  gender          Gender
+
+  accessId Int
+  access   Access @relation(fields: [accessId], references: [level])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Patient {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  name         String
+  password     String
+  dateBirth    DateTime
+  addrees      String
+  phone        String
+  professional String
+  gender       Gender
+
+  accessId Int    @default(3)
+  access   Access @relation(fields: [accessId], references: [level])
+}
+
+model Access {
+  id        String   @id @default(uuid())
+  name      String
+  level     Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Admin   Admin[]
+  Patient Patient[]
 }

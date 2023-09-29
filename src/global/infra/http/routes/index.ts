@@ -1,9 +1,11 @@
 import { Router } from 'express'
 
-import { userRouter } from '@modules/user/routes'
+import { adminRouter } from '@modules/admin/routes'
+import { accessRouter } from '@modules/access/routes'
 
 const routes = Router()
 
-routes.use('/user', userRouter)
+routes.use('/admin', adminRouter)
+routes.use('/access', accessRouter)
 
 export default routes
