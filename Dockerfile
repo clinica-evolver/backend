@@ -10,6 +10,5 @@ RUN apt-get update \
     && apt-get autoremove -yqq --purge wget && rm -rf /var/lib/apt/lists/*
 
 FROM builder as dev
-RUN npm i
 
 ENTRYPOINT ["./entrypoint.sh"]
