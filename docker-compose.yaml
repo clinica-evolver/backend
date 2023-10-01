@@ -15,7 +15,7 @@ services:
     networks:
       - evolver-network
     ports:
-      - "5432:5432"
+      - "5433:5433"
     environment:
       POSTGRES_PASSWORD: root
       POSTGRES_USER: root
@@ -26,7 +26,7 @@ services:
       context: .
       target: dev
     container_name: evolver-backend
-    entrypoint: dockerize -wait tcp://db:5432 -timeout 60s ./entrypoint.sh
+    entrypoint: dockerize -wait tcp://db:5433 -timeout 60s ./entrypoint.sh
     networks:
       - evolver-network
     volumes:
@@ -38,7 +38,7 @@ services:
       - "5555:5555"
     environment:
       PORT: ${PORT:-3333}
-      DATABASE_URL: "postgresql://root:root@db:5432/evolver-database?schema=public"
+      DATABASE_URL: "postgresql://root:root@db:5433/evolver-database?schema=public"
       NODE_ENV: ${NODE_ENV:-development}
     depends_on:
       - db
