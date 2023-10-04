@@ -22,7 +22,7 @@ declare namespace Repository {
     interface UpdateAdminParams {
       id: string
       email: string
-      password: string
+      password?: string
       phone: string
       access: number
       role: string

@@ -17,8 +17,17 @@ export class UpdateAdminUseCase implements UseCase.Methods {
     if (!user) throw new Error('Admin not found')
 
     const userData = {
-      ...params,
-      password: await hashPassword(params.password),
+      id: params.id,
+      email: params.email,
+      phone: params.phone,
+      access: params.access,
+      role: params.role,
+      descriptionRole: params.descriptionRole,
+      address: params.address,
+    }
+
+    if (params.password) {
+      Object.assign(userData, { password: await hashPassword(params.password) })
     }
 
     return this.adminRepository.update(userData)

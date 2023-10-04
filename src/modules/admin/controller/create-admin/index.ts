@@ -10,12 +10,12 @@ const requestSchema = z.object({
   dateBirth: z.string(),
   password: z.string().min(6).max(255),
   gender: z.custom<'male' | 'female'>(),
-  phone: z.string().min(11).max(11),
+  phone: z.string(),
   access: z.number().min(1).max(1),
   address: z.string().min(3).max(255),
   role: z.string(),
   descriptionRole: z.string().min(3).max(255),
-  registerCode: z.string().min(6).max(6),
+  registerCode: z.string(),
 })
 
 export class CreateAdminController implements Controller.Methods {
