@@ -49,6 +49,7 @@ export class AdminRepository implements Repository.Admin.Methods {
         phone: params.phone,
         role: params.role,
         registerCode: params.registerCode,
+        descriptionRole: params.descriptionRole,
       },
     })
   }

@@ -7,7 +7,7 @@ import { UpdateAdminUseCase } from '@modules/admin/use-case/update-admin'
 const requestSchema = z.object({
   id: z.string(),
   email: z.string().email(),
-  password: z.string().min(6).max(255),
+  password: z.string().min(6).max(255).optional(),
   phone: z.string().min(11).max(11),
   access: z.number().min(1).max(1),
   address: z.string().min(3).max(255),
@@ -30,6 +30,8 @@ export class UpdateAdminController implements Controller.Methods {
       const user = await updateAdminUseCase.execute(params)
       return response.status(200).json(user)
     } catch (error) {
+      console.log(error)
+
       if (error instanceof Error) {
         return response.status(400).json({ message: error.message })
       }
