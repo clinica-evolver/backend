@@ -8,7 +8,7 @@ const requestSchema = z.object({
   id: z.string(),
   email: z.string().email(),
   password: z.string().min(6).max(255).optional(),
-  phone: z.string().min(11).max(11),
+  phone: z.string(),
   access: z.number().min(1).max(1),
   address: z.string().min(3).max(255),
   role: z.string(),
