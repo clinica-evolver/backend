@@ -17,11 +17,12 @@ jobs:
               uses: actions/checkout@v3
               
             - name: Copy file via ssh password
-              uses: appleboy/scp-action@v0.1.4
-              with:
-                host: ${{ secrets.SSH_HOST }}
-                username: ${{ secrets.SSH_USER }}
-                port: ${{ secrets.SSH_PORT }}
-                key: ${{ secrets.SSH_KEY }}
-                source: "., !.github/**, !README.md, !node_modules"
-                target: "user/evolver-backend"
+              uses: easingthemes/ssh-deploy@main
+              with: 
+                SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+                SOURCE: "./"
+                REMOTE_HOST: ${{ secrets.SSH_HOST }}
+                REMOTE_USER: ${{ secrets.SSH_USER }}
+                TARGET: "/home/ubuntu/app/evolver-backend"
+                EXCLUDE: "/.github/, /node_modules/"
+              
