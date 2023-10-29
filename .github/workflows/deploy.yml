@@ -27,5 +27,5 @@ jobs:
                 EXCLUDE: "/.github/, /node_modules/"
                 SCRIPT_AFTER: |
                     cd /home/ubuntu/user/project
-                    sudo docker-compose -f docker-compose.yml up -d --build
+                    sudo docker-compose -f ./docker-compose.yml up -d --build
               
