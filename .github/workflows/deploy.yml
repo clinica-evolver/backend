@@ -1,6 +1,9 @@
 name: Deploy Homolog
 on:
-    push:
+    # push:
+        # branches:
+            # - homolog
+    pull_request:
         branches:
             - homolog
 
