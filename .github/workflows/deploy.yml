@@ -23,6 +23,6 @@ jobs:
                 SOURCE: "./"
                 REMOTE_HOST: ${{ secrets.SSH_HOST }}
                 REMOTE_USER: ${{ secrets.SSH_USER }}
-                TARGET: "/home/ubuntu"
+                TARGET: "/home/ubuntu/user/project"
                 EXCLUDE: "/.github/, /node_modules/"
               
