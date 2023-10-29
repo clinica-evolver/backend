@@ -57,15 +57,14 @@ model Employee {
 }
 
 model Patient {
-  id           String   @id @default(uuid())
-  email        String   @unique
-  name         String
-  password     String
-  dateBirth    DateTime
-  addrees      String
-  phone        String
-  professional String
-  gender       Gender
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String
+  dateBirth DateTime
+  address   String
+  phone     String
+  gender    Gender
 
   accessId Int    @default(3)
   access   Access @relation(fields: [accessId], references: [level])
