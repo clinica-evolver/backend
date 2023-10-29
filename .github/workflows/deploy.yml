@@ -1,0 +1,24 @@
+name: Deploy Homolog
+on:
+    push:
+        branches:
+            - homolog
+
+jobs: 
+    deploy:
+        name: Deploy EC2
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+              
+            - name: Copy file via ssh password
+              uses: appleboy/scp-action@v0.1.4
+              with:
+                host: ${{ secrets.SSH_HOST }}
+                username: ${{ secrets.SSH_USER }}
+                port: ${{ secrets.SSH_PORT }}
+                key: ${{ secrets.SSH_KEY }}
+                source: "., !.github/**, !README.md, !node_modules"
+                target: "user/evolver-backend"
