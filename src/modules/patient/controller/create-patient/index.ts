@@ -31,6 +31,8 @@ export class CreatePatientController implements Controller.Methods {
       return response.status(201).json(user)
     } catch (error) {
       if (error instanceof Error) {
+        console.log(error)
+
         return response.status(400).json({ message: error.message })
       }
 
