@@ -65,11 +65,12 @@ model Patient {
   address   String
   phone     String
   gender    Gender
+
+  accessId Int
+  access   Access @relation(fields: [accessId], references: [level])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  accessId Int    @default(3)
-  access   Access @relation(fields: [accessId], references: [level])
 }
 
 model Access {

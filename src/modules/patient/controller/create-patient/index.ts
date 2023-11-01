@@ -12,6 +12,7 @@ const requestSchema = z.object({
   gender: z.custom<'male' | 'female'>(),
   phone: z.string(),
   address: z.string().min(3).max(255),
+  access: z.number(),
 })
 
 export class CreatePatientController implements Controller.Methods {
@@ -26,7 +27,7 @@ export class CreatePatientController implements Controller.Methods {
     const createPatientUseCase = container.resolve(CreatePatientUseCase)
 
     try {
-      const user = await createPatientUseCase.execute({ ...payload, access: 3 })
+      const user = await createPatientUseCase.execute(payload)
       return response.status(201).json(user)
     } catch (error) {
       if (error instanceof Error) {
