@@ -39,5 +39,9 @@ services:
       PORT: ${PORT:-3333}
       DATABASE_URL: "postgresql://root:root@db:5432/evolver-database?schema=public"
       NODE_ENV: ${NODE_ENV:-development}
+      EXPIRES_IN: ${EXPIRES_IN:-1d}
+      SECRET: ${SECRET:-mysecret123}
+      SENTRY_DNS: ${SENTRY_DNS:-https://acb2435897645833cf4c54ed731785a1@o4506138692747264.ingest.sentry.io/4506138743209984}
+
     depends_on:
       - db

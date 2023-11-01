@@ -9,7 +9,7 @@ const requestSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6).max(255).optional(),
   phone: z.string(),
-  access: z.number().min(1).max(1),
+  access: z.number(),
   address: z.string().min(3).max(255),
   role: z.string(),
   descriptionRole: z.string().min(3).max(255),
@@ -30,8 +30,6 @@ export class UpdateEmployeeController implements Controller.Methods {
       const user = await updateEmployeeUseCase.execute(params)
       return response.status(200).json(user)
     } catch (error) {
-      console.log(error)
-
       if (error instanceof Error) {
         return response.status(400).json({ message: error.message })
       }
