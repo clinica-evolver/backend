@@ -33,4 +33,15 @@ jobs:
                 script: |
                     cd /home/ubuntu/user/project
                     sudo docker-compose -f ./docker-compose.yaml up -d --build
+
+            - name: Container status
+              uses: appleboy/ssh-action@v1.0.0
+              with:
+                host: ${{ secrets.SSH_HOST }}
+                username: ${{ secrets.SSH_USER }}
+                port: ${{ secrets.SSH_PORT }}
+                key: ${{ secrets.SSH_KEY }}
+                script: |
+                    cd /home/ubuntu/user/project
+                    sudo docker ps -a
               

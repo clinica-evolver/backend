@@ -14,8 +14,6 @@ export class CreatePatientUseCase implements UseCase.Methods {
   async execute(
     params: Repository.Patient.CreatePatientParams,
   ): Promise<Patient> {
-    console.log(params)
-
     const userAlreadyExists = await this.patientRepository.findPatientByEmail(
       params.email,
     )
