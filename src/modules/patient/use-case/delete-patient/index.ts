@@ -11,7 +11,6 @@ export class DeletePatientUseCase implements UseCase.Methods {
 
   async execute(id: string): Promise<void> {
     const user = await this.patientRepository.findPatientById(id)
-    console.log(user)
 
     if (!user) throw new Error('Patient not found')
 
