@@ -49,6 +49,7 @@ export class PatientRepository implements Repository.Patient.Methods {
         gender: params.gender,
         phone: params.phone,
         accessId: params.access,
+        updatedAt: new Date(),
       },
     })
   }
