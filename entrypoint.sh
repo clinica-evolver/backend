@@ -6,6 +6,7 @@ if [ "$NODE_ENV" = "development" ]; then
     npx prisma migrate dev
     npm run dev
 elif [ "$NODE_ENV" = "homolog" ]; then
+    npm ci
     npm run build
     npx prisma migrate deploy
     node build/global/infra/http/server.js

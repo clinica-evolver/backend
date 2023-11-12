@@ -5,43 +5,68 @@ on:
             - homolog
 
 jobs: 
-    deploy:
-        name: Deploy EC2
-        runs-on: ubuntu-latest
+  code-quality:
+    timeout-minutes: 5
+    name: Code quality
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v3
-              
-            - name: Copy file via ssh password
-              uses: easingthemes/ssh-deploy@main
-              with: 
-                SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
-                SOURCE: "./"
-                REMOTE_HOST: ${{ secrets.SSH_HOST }}
-                REMOTE_USER: ${{ secrets.SSH_USER }}
-                TARGET: "/home/ubuntu/user/project"
-                EXCLUDE: "/.github/, /node_modules/"
-            
-            - name: Docker compose up
-              uses: appleboy/ssh-action@v1.0.0
-              with:
-                host: ${{ secrets.SSH_HOST }}
-                username: ${{ secrets.SSH_USER }}
-                port: ${{ secrets.SSH_PORT }}
-                key: ${{ secrets.SSH_KEY }}
-                script: |
-                    cd /home/ubuntu/user/project
-                    sudo docker-compose -f ./docker-compose.hmg.yaml up -d --build
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
 
-            - name: Container status
-              uses: appleboy/ssh-action@v1.0.0
-              with:
-                host: ${{ secrets.SSH_HOST }}
-                username: ${{ secrets.SSH_USER }}
-                port: ${{ secrets.SSH_PORT }}
-                key: ${{ secrets.SSH_KEY }}
-                script: |
-                    cd /home/ubuntu/user/project
-                    sudo docker ps -a
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: './package-lock.json'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linter
+        uses: wearerequired/lint-action@v2
+        with:
+          eslint: true
+          prettier: true
+
+  deploy:
+    name: Deploy EC2
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Copy file via ssh password
+        uses: easingthemes/ssh-deploy@main
+        with: 
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+          SOURCE: "./"
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          TARGET: "/home/ubuntu/user/project"
+          EXCLUDE: "/.github/, /node_modules/"
+      
+      - name: Docker compose up
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+              cd /home/ubuntu/user/project
+              sudo docker-compose -f ./docker-compose.hmg.yaml up -d --build
+
+      - name: Container status
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+              cd /home/ubuntu/user/project
+              sudo docker ps -a
               
