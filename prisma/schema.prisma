@@ -56,23 +56,6 @@ model Employee {
   updatedAt DateTime @updatedAt
 }
 
-model Patient {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String
-  password  String
-  dateBirth DateTime
-  address   String
-  phone     String
-  gender    Gender
-
-  accessId Int
-  access   Access @relation(fields: [accessId], references: [level])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Access {
   id        String   @id @default(uuid())
   name      String
@@ -81,6 +64,5 @@ model Access {
   updatedAt DateTime @updatedAt
 
   Admin    Admin[]
-  Patient  Patient[]
   Employee Employee[]
 }

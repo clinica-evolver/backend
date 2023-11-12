@@ -32,7 +32,7 @@ jobs:
                 key: ${{ secrets.SSH_KEY }}
                 script: |
                     cd /home/ubuntu/user/project
-                    sudo docker-compose -f ./docker-compose.yaml up -d --build
+                    sudo docker-compose -f ./docker-compose.hmg.yaml up -d --build
 
             - name: Container status
               uses: appleboy/ssh-action@v1.0.0
