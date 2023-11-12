@@ -12,3 +12,7 @@ RUN apt-get update \
 FROM builder as dev
 
 ENTRYPOINT ["./entrypoint.sh"]
+
+FROM builder as homolog
+
+ENTRYPOINT ["./entrypoint.sh"]
