@@ -24,14 +24,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run linter
-        uses: wearerequired/lint-action@v2
+      - name: Run Review Dog - Linter
+        uses: reviewdog/action-eslint@v1
         with:
-          eslint: true
-          prettier: true
+          level: "info"
+          workdir: "./"
+          fail_on_error: "true"
 
   deploy:
     name: Deploy EC2
+    needs: ['code-quality']
     runs-on: ubuntu-latest
 
     steps:
