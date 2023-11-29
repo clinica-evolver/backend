@@ -1,3 +1,4 @@
+import { Admin, Employee } from '@prisma/client'
 import { inject, injectable } from 'tsyringe'
 
 import { Injection } from 'global/container'
@@ -9,14 +10,23 @@ export class LoginUseCase implements UseCase.Methods {
   constructor(
     @inject(Injection.AdminRepository)
     private adminRepository: Repository.Admin.Methods,
+
+    @inject(Injection.EmployeeRepository)
+    private employeeRepository: Repository.Employee.Methods,
   ) {}
 
   async execute(
     params: UseCase.Login.LoginParams,
   ): Promise<UseCase.Login.LoginResponse> {
-    const user = await this.adminRepository.findAdminByEmail(params.email)
+    let user: Admin | Employee
 
-    if (!user) throw new Error('Admin not found')
+    user = await this.adminRepository.findAdminByEmail(params.email)
+
+    if (!user) {
+      user = await this.employeeRepository.findEmployeeByEmail(params.email)
+    }
+
+    if (!user) throw new Error('User not found')
 
     const passwordMatched = await comparePassword({
       password: params.password,
@@ -25,7 +35,12 @@ export class LoginUseCase implements UseCase.Methods {
 
     if (!passwordMatched) throw new Error('Incorrect password')
 
-    const body = { id: user.id }
+    const body = {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      access: user.accessId,
+    }
 
     const token = generateToken({ body })
 
